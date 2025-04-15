@@ -31,7 +31,7 @@ OpenAI / any LLM API integration (for actual code reviews)
 
 📦 Installation
 Clone the repository:
-git clone https://github.com/your-username/aiview.git
+git clone https://github.com/ayushmanmishra18/aiview.git
 
 Go to the frontend directory:
 cd aiview/frontend
