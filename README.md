@@ -15,13 +15,7 @@ AIview is an AI-powered code review tool designed for developers. It allows you 
 
 ---
 
-## 🖼️ Preview
 
-![AIview Screenshot](https://your-screenshot-url.com)
-
-> *Replace the above image URL with your actual screenshot*
-
----
 
 ## 🛠️ Tech Stack
 
