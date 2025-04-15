@@ -27,7 +27,7 @@ AIview is an AI-powered code review tool designed for developers. It allows you 
 
 ### Backend
 - Node.js + Express (for `/ai/get-review` endpoint)
-- OpenAI / any LLM API integration (for actual code reviews)
+- Google Gemini Ai(for actual code reviews)
 
 ---
 
