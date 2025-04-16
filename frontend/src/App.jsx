@@ -18,7 +18,7 @@ function App() {
 
   async function reviewCode() {
     try {
-      const response = await axios.post('http://localhost:3000/ai/get-review', { code });
+      const response = await axios.post(import.meta.env.VITE_API_URL, { code });
       setReview(response.data);
     } catch (error) {
       console.error("Error reviewing the code:", error);
