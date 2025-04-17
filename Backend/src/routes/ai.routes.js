@@ -1,10 +1,8 @@
 const express = require('express');
-const aiController = require("../controllers/ai.controller")
-
 const router = express.Router();
+const { getReview } = require('../controllers/ai.controller');
 
+// Only path fragments here—no full URLs
+router.post('/get-review', getReview);
 
-router.post("/get-review", aiController.getReview)
-
-
-module.exports = router;    
+module.exports = router;

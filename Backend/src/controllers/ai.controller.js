@@ -1,17 +1,15 @@
-const aiService = require("../services/ai.service")
+const axios = require('axios');
 
-
-module.exports.getReview = async (req, res) => {
-
-    const code = req.body.code;
-
-    if (!code) {
-        return res.status(400).send("Prompt is required");
-    }
-
-    const response = await aiService(code);
-
-
-    res.send(response);
-
+async function getReview(req, res) {
+  const { code } = req.body;
+  try {
+    // Replace with your actual AI service endpoint
+    const response = await axios.post('https://your-ai-service.com/review', { code });
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error during review process:", error);
+    res.status(500).json({ message: 'Error reviewing code' });
+  }
 }
+
+module.exports = { getReview };

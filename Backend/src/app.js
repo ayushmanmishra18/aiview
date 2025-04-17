@@ -1,24 +1,43 @@
 const express = require('express');
-const aiRoutes = require('./routes/ai.routes')
-const cors = require('cors')
+const cors = require('cors');
+const aiRoutes = require('./routes/ai.routes');
 
-const app = express()
+const app = express();
 
-app.use(cors(
-    {
-        origin: process.env.FRONTEND_URL, // Replace with your frontend URL
-        methods: ['GET', 'POST', 'PUT', 'DELETE'],
-        allowedHeaders: ['Content-Type', 'Authorization'],
-    }
-))
+// Build & log allowed origins
+const raw = process.env.FRONTEND_URL || '';
+const noSlash = raw.replace(/\/$/, '');
+const allowedOrigins = ['http://localhost:5173'];
+if (noSlash) allowedOrigins.unshift(noSlash);
+console.log('🟢 Allowed origins:', allowedOrigins);
 
+const corsOptions = {
+  origin(origin, callback) {
+    console.log('🟣 CORS incoming Origin:', origin);
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS policy: origin ${origin} not allowed`));
+  },
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 204,
+};
 
-app.use(express.json())
+app.use(cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
 
-app.get('/', (req, res) => {
-    res.send('Hello World')
-})
+app.use(express.json());
 
-app.use('/ai', aiRoutes)
+// Health check
+app.get('/', (req, res) => res.send('Hello World'));
 
-module.exports = app
+// API routes
+app.use('/ai', aiRoutes);
+
+// Optional: global error handler
+app.use((err, req, res, next) => {
+  console.error('🔴 Error:', err.message);
+  res.status(500).json({ error: err.message || 'Something went wrong' });
+});
+
+module.exports = app;

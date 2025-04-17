@@ -18,7 +18,7 @@ function App() {
 
   async function reviewCode() {
     try {
-      const response = await axios.post(import.meta.env.VITE_API_URL, { code });
+      const response = await axios.post(import.meta.env.VITE_API_URL + '/ai/get-review', { code });
       setReview(response.data);
     } catch (error) {
       console.error("Error reviewing the code:", error);
@@ -36,7 +36,7 @@ function App() {
               onValueChange={code => setCode(code)}
               highlight={code => prism.highlight(code, prism.languages.javascript, "javascript")}
               padding={10}
-              placeholder="Write your code here"  // Placeholder text
+              placeholder="Write your code here"
               style={{
                 fontFamily: '"Fira code", "Fira Mono", monospace',
                 fontSize: 16,
@@ -47,10 +47,7 @@ function App() {
               }}
             />
           </div>
-          <div
-            onClick={reviewCode}
-            className="review"
-          >
+          <div onClick={reviewCode} className="review">
             Review
           </div>
         </div>
