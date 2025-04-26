@@ -9,7 +9,7 @@ import axios from 'axios';
 import './App.css';
 
 function App() {
-  const [code, setCode] = useState(``);  // Initialize with empty string for code
+  const [code, setCode] = useState(``);
   const [review, setReview] = useState(``);
 
   useEffect(() => {
@@ -18,46 +18,47 @@ function App() {
 
   async function reviewCode() {
     try {
-      const response = await axios.post(import.meta.env.VITE_API_URL + '/ai/get-review', { code });
-      setReview(response.data);
+      const response = await axios.post(
+        import.meta.env.VITE_API_URL + '/ai/get-review',
+        { code }
+      );
+      setReview(response.data.review);
     } catch (error) {
       console.error("Error reviewing the code:", error);
-      // Handle error appropriately, like showing an error message to the user.
+      // Optional: Show error to user
     }
   }
 
   return (
-    <>
-      <main>
-        <div className="left">
-          <div className="code">
-            <Editor
-              value={code}
-              onValueChange={code => setCode(code)}
-              highlight={code => prism.highlight(code, prism.languages.javascript, "javascript")}
-              padding={10}
-              placeholder="Write your code here"
-              style={{
-                fontFamily: '"Fira code", "Fira Mono", monospace',
-                fontSize: 16,
-                border: "1px solid #ddd",
-                borderRadius: "5px",
-                height: "100%",
-                width: "100%",
-              }}
-            />
-          </div>
-          <div onClick={reviewCode} className="review">
-            Review
-          </div>
+    <main>
+      <div className="left">
+        <div className="code">
+          <Editor
+            value={code}
+            onValueChange={code => setCode(code)}
+            highlight={code => prism.highlight(code, prism.languages.javascript, "javascript")}
+            padding={10}
+            placeholder="Write your code here"
+            style={{
+              fontFamily: '"Fira code", "Fira Mono", monospace',
+              fontSize: 16,
+              border: "1px solid #ddd",
+              borderRadius: "5px",
+              height: "100%",
+              width: "100%",
+            }}
+          />
         </div>
-        <div className="right">
-          <Markdown rehypePlugins={[rehypeHighlight]}>
-            {review}
-          </Markdown>
+        <div onClick={reviewCode} className="review">
+          Review
         </div>
-      </main>
-    </>
+      </div>
+      <div className="right">
+        <Markdown rehypePlugins={[rehypeHighlight]}>
+          {review}
+        </Markdown>
+      </div>
+    </main>
   );
 }
 
