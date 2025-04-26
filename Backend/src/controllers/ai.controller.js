@@ -1,14 +1,17 @@
-// controllers/ai.controller.js
-const axios = require('axios');
+// src/controllers/ai.controller.js
+const aiService = require('../services/ai.service');
 
 async function getReview(req, res) {
   const { code } = req.body;
   try {
-    // ← this is just a placeholder URL
-    const response = await axios.post('https://your-ai-service.com/review', { code });
-    res.json(response.data);
+    // call your Google Generative AI wrapper
+    const reviewText = await aiService(code);
+    // return a consistent JSON shape
+    res.json({ review: reviewText });
   } catch (error) {
     console.error("Error during review process:", error);
     res.status(500).json({ message: 'Error reviewing code' });
   }
 }
+
+module.exports = { getReview };
